@@ -16,9 +16,12 @@ public class PaymentLog {
     @Id
     private String orderNo;
     private String payToken;
+    @Setter
     private String payMethod;
     private Integer amount;
+    @Setter
     private String paidTs;
+    @Setter
     private String transactionId;
     private List<Item> items;
 

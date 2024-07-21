@@ -1,5 +1,6 @@
 package com.T82.payment.controller;
 
+import com.T82.payment.domain.request.CallbackRequest;
 import com.T82.payment.domain.request.PaymentRequest;
 import com.T82.payment.service.PaymentService;
 import lombok.RequiredArgsConstructor;
@@ -17,5 +18,9 @@ public class PaymentController {
     @PostMapping
     public String requestPayment(@RequestBody PaymentRequest paymentRequest) {
         return paymentService.requestPayment(paymentRequest);
+    }
+    @PostMapping("/callback")
+    public void callbackPayment(@RequestBody CallbackRequest callbackRequest) {
+        paymentService.callbackPayment(callbackRequest);
     }
 }

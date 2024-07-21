@@ -2,6 +2,8 @@ package com.T82.payment.service;
 
 import com.T82.payment.config.util.TossUtil;
 import com.T82.payment.domain.dto.TossPaymentResponse;
+import com.T82.payment.domain.model.PaymentLog;
+import com.T82.payment.domain.request.CallbackRequest;
 import com.T82.payment.domain.request.PaymentRequest;
 import com.T82.payment.repository.PaymentRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,5 +25,13 @@ public class PaymentServiceImpl implements PaymentService {
             paymentRepository.save(paymentRequest.toLog(tossPaymentResponse));
         }
         return "https://ul.toss.im?scheme=supertoss%3A%2F%2Fpay%3FpayToken%3D" + tossPaymentResponse.getPayToken();
+    }
+
+    @Override
+    public void callbackPayment(CallbackRequest callbackRequest) {
+        PaymentLog paymentLog = paymentRepository.findById(callbackRequest.getOrderNo())
+                .orElseThrow(() -> new RuntimeException("PaymentLog not found"));
+
+        paymentRepository.save(callbackRequest.updateLog(paymentLog));
     }
 }
