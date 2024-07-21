@@ -1,6 +1,7 @@
 package com.T82.payment.config.util;
 
 import com.T82.payment.domain.dto.TossPaymentResponse;
+import com.T82.payment.domain.dto.TossRefundResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
@@ -36,7 +37,7 @@ public class TossUtil {
 
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("orderNo", orderNo);
-            jsonBody.put("amount", 1000000);
+            jsonBody.put("amount", amount);
             jsonBody.put("amountTaxFree", 0);
             jsonBody.put("productDesc", "테스트 결제");
             jsonBody.put("apiKey", "sk_test_w5lNQylNqa5lNQe013Nq");
@@ -72,6 +73,47 @@ public class TossUtil {
         } catch (Exception e) {
             System.out.println("aa");
             System.out.println(e.getMessage());
+            responseBody.append(e);
+        }
+        System.out.println(responseBody.toString());
+        return null;
+    }
+
+    public TossRefundResponse refund(String payToken, Integer amount) {
+        URL url = null;
+        URLConnection connection = null;
+        StringBuilder responseBody = new StringBuilder();
+        try {
+            url = new URL("https://pay.toss.im/api/v2/refunds");
+            connection = url.openConnection();
+            connection.addRequestProperty("Content-Type", "application/json");
+            connection.setDoOutput(true);
+            connection.setDoInput(true);
+
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("payToken", payToken);
+            jsonBody.put("amount", amount);
+            jsonBody.put("apiKey", "sk_test_w5lNQylNqa5lNQe013Nq");
+
+            BufferedOutputStream bos = new BufferedOutputStream(connection.getOutputStream());
+
+            bos.write(jsonBody.toString().getBytes(StandardCharsets.UTF_8));
+            bos.flush();
+            bos.close();
+
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
+            String line = null;
+            while ((line = br.readLine()) != null) {
+                responseBody.append(line);
+            }
+            br.close();
+            System.out.println(responseBody.toString());
+
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            return objectMapper.readValue(responseBody.toString(), TossRefundResponse.class);
+        } catch (Exception e) {
             responseBody.append(e);
         }
         System.out.println(responseBody.toString());

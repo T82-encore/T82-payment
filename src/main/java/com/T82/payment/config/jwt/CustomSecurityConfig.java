@@ -15,7 +15,6 @@ import java.util.List;
 @Configuration
 @RequiredArgsConstructor
 public class CustomSecurityConfig {
-    private final UserDetailsService authService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
@@ -27,7 +26,6 @@ public class CustomSecurityConfig {
             corsConfiguration.setAllowedOrigins(List.of("*"));
             return corsConfiguration;
         }));
-        http.userDetailsService(authService);
 
         http.authorizeHttpRequests(req->
                 req.anyRequest().authenticated()
