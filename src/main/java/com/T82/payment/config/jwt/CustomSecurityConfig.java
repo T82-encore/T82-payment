@@ -28,7 +28,10 @@ public class CustomSecurityConfig {
         }));
 
         http.authorizeHttpRequests(req->
-                req.anyRequest().authenticated()
+                req.requestMatchers("/api/v1/payment/callback")
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated()
         );
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

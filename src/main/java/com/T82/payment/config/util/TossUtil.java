@@ -42,7 +42,7 @@ public class TossUtil {
             jsonBody.put("productDesc", "테스트 결제");
             jsonBody.put("apiKey", "sk_test_w5lNQylNqa5lNQe013Nq");
             jsonBody.put("autoExecute", true);
-            jsonBody.put("resultCallback", "http://35.225.68.126:8080/api/v1/payment/callback");
+            jsonBody.put("resultCallback", "https://35.225.68.126/api/v1/payment/callback");
             jsonBody.put("callbackVersion", "V2");
             jsonBody.put("retUrl", "http://localhost");
             jsonBody.put("retCancelUrl", "http://YOUR-SITE.COM/close");
