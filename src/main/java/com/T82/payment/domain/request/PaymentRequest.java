@@ -25,7 +25,7 @@ public class PaymentRequest {
     @Getter
     public static class ItemRequest {
         private Long seatId;
-        private String couponId;
+        private List<String> couponIds;
         private int amount;
     }
 }

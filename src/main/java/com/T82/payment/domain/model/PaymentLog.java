@@ -42,7 +42,7 @@ public class PaymentLog {
         this.items = list.stream().map(itemRequest -> {
            Item item = new Item();
            item.seatId = itemRequest.getSeatId();
-           item.couponId = itemRequest.getCouponId();
+           item.couponIds = itemRequest.getCouponIds();
            item.amount = itemRequest.getAmount();
            return item;
         }).toList();
@@ -51,7 +51,7 @@ public class PaymentLog {
     @Getter
     public static class Item {
         private Long seatId;
-        private String couponId;
+        private List<String> couponIds;
         private Integer amount;
     }
 }
