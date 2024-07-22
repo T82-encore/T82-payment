@@ -1,5 +1,7 @@
 package com.T82.payment.service;
 
+import com.T82.payment.api.ApiCoupon;
+import com.T82.payment.config.jwt.TokenInfo;
 import com.T82.payment.config.kafka.KafkaUtil;
 import com.T82.payment.config.util.TossUtil;
 import com.T82.payment.domain.dto.TossPaymentResponse;
@@ -18,15 +20,19 @@ public class PaymentServiceImpl implements PaymentService {
     private final PaymentRepository paymentRepository;
     private final TossUtil tossUtil;
     private final KafkaProducerService kafkaProducerService;
+    private final ApiCoupon apiCoupon;
 
     @Override
-    public String requestPayment(PaymentRequest paymentRequest) {
+    public String requestPayment(TokenInfo tokenInfo, PaymentRequest paymentRequest) {
+        apiCoupon.verifyCoupon(tokenInfo, paymentRequest);
+
         TossPaymentResponse tossPaymentResponse = tossUtil.pay(paymentRequest.getTotalAmount());
         if (tossPaymentResponse == null) throw new RuntimeException();
         if (tossPaymentResponse.getCode() == -1) throw new IllegalArgumentException();
         if (tossPaymentResponse.getCode() == 0) {
             paymentRepository.save(paymentRequest.toLog(tossPaymentResponse));
         }
+
         return "https://ul.toss.im?scheme=supertoss%3A%2F%2Fpay%3FpayToken%3D" + tossPaymentResponse.getPayToken();
     }
 
