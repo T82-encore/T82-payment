@@ -1,5 +1,6 @@
 package com.T82.payment.service;
 
+import com.T82.payment.config.kafka.KafkaUtil;
 import com.T82.payment.config.util.TossUtil;
 import com.T82.payment.domain.dto.TossPaymentResponse;
 import com.T82.payment.domain.model.PaymentLog;
@@ -9,11 +10,14 @@ import com.T82.payment.repository.PaymentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
     private final PaymentRepository paymentRepository;
     private final TossUtil tossUtil;
+    private final KafkaProducerService kafkaProducerService;
 
     @Override
     public String requestPayment(PaymentRequest paymentRequest) {
@@ -32,5 +36,8 @@ public class PaymentServiceImpl implements PaymentService {
                 .orElseThrow(() -> new RuntimeException("PaymentLog not found"));
 
         paymentRepository.save(callbackRequest.updateLog(paymentLog));
+
+        Map<String, Object> message = KafkaUtil.getPaymentMessage(paymentLog);
+        kafkaProducerService.sendMessage("payment_success", message);
     }
 }

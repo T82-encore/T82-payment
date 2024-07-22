@@ -3,10 +3,10 @@ package com.T82.payment.domain.request;
 import com.T82.payment.domain.model.PaymentLog;
 import lombok.Getter;
 
+@Getter
 public class CallbackRequest {
     private String status;
     private String payToken;
-    @Getter
     private String orderNo;
     private String payMethod;
     private String paidTs;
