@@ -6,10 +6,10 @@ import lombok.Getter;
 
 import java.util.List;
 
+@Getter
 public class PaymentRequest {
-    @Getter
     private Integer totalAmount;
-    @Getter
+    private Long eventId;
     private List<ItemRequest> items;
 
     public PaymentLog toLog(TossPaymentResponse response) {
@@ -17,6 +17,7 @@ public class PaymentRequest {
                 response.getOrderNo(),
                 response.getPayToken(),
                 this.totalAmount,
+                this.eventId,
                 this.items
         );
     }

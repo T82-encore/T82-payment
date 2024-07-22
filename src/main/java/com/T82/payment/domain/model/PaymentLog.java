@@ -25,17 +25,20 @@ public class PaymentLog {
     private String paidTs;
     @Setter
     private String transactionId;
+    private Long eventId;
     private List<Item> items;
 
     public PaymentLog(
             String orderNo,
             String payToken,
             Integer amount,
+            Long eventId,
             List<PaymentRequest.ItemRequest> list
     ) {
         this.orderNo = orderNo;
         this.payToken = payToken;
         this.amount = amount;
+        this.eventId = eventId;
         this.items = list.stream().map(itemRequest -> {
            Item item = new Item();
            item.seatId = itemRequest.getSeatId();

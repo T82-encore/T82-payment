@@ -17,7 +17,6 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public String requestPayment(PaymentRequest paymentRequest) {
-        System.out.println(paymentRequest.getItems().size());
         TossPaymentResponse tossPaymentResponse = tossUtil.pay(paymentRequest.getTotalAmount());
         if (tossPaymentResponse == null) throw new RuntimeException();
         if (tossPaymentResponse.getCode() == -1) throw new IllegalArgumentException();
