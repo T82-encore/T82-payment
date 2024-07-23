@@ -1,5 +1,6 @@
 package com.T82.payment.config.jwt;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +22,15 @@ public class JwtUtil {
             return false;
         }
         return true;
+    }
+
+    public TokenInfo parseToken(String token) {
+        Claims payload = (Claims) Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parse(token)
+                .getPayload();
+        return TokenInfo.fromClaims(payload);
     }
 
     public JwtUtil(
