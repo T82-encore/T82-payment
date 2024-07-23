@@ -1,12 +1,11 @@
 package com.T82.payment.domain.request;
 
 import com.T82.payment.config.jwt.TokenInfo;
-import com.T82.payment.domain.dto.TossPaymentResponse;
+import com.T82.payment.domain.dto.TossPaymentDto;
 import com.T82.payment.domain.model.PaymentLog;
 import lombok.Getter;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Getter
@@ -15,7 +14,7 @@ public class PaymentRequest {
     private Long eventId;
     private List<ItemRequest> items;
 
-    public PaymentLog toLog(TossPaymentResponse response) {
+    public PaymentLog toLog(TossPaymentDto response) {
         return new PaymentLog(
                 response.getOrderNo(),
                 response.getPayToken(),

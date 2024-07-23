@@ -4,7 +4,7 @@ import com.T82.payment.api.ApiCoupon;
 import com.T82.payment.config.jwt.TokenInfo;
 import com.T82.payment.config.kafka.KafkaUtil;
 import com.T82.payment.config.util.TossUtil;
-import com.T82.payment.domain.dto.TossPaymentResponse;
+import com.T82.payment.domain.dto.TossPaymentDto;
 import com.T82.payment.domain.model.PaymentLog;
 import com.T82.payment.domain.request.CallbackRequest;
 import com.T82.payment.domain.request.PaymentRequest;
@@ -26,14 +26,14 @@ public class PaymentServiceImpl implements PaymentService {
     public String requestPayment(TokenInfo tokenInfo, PaymentRequest paymentRequest) {
         apiCoupon.verifyCoupon(tokenInfo, paymentRequest);
 
-        TossPaymentResponse tossPaymentResponse = tossUtil.pay(paymentRequest.getTotalAmount());
-        if (tossPaymentResponse == null) throw new RuntimeException();
-        if (tossPaymentResponse.getCode() == -1) throw new IllegalArgumentException();
-        if (tossPaymentResponse.getCode() == 0) {
-            paymentRepository.save(paymentRequest.toLog(tossPaymentResponse));
+        TossPaymentDto tossPaymentDto = tossUtil.pay(paymentRequest.getTotalAmount());
+        if (tossPaymentDto == null) throw new RuntimeException();
+        if (tossPaymentDto.getCode() == -1) throw new IllegalArgumentException();
+        if (tossPaymentDto.getCode() == 0) {
+            paymentRepository.save(paymentRequest.toLog(tossPaymentDto));
         }
 
-        return "https://ul.toss.im?scheme=supertoss%3A%2F%2Fpay%3FpayToken%3D" + tossPaymentResponse.getPayToken();
+        return "https://ul.toss.im?scheme=supertoss%3A%2F%2Fpay%3FpayToken%3D" + tossPaymentDto.getPayToken();
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.T82.payment.service;
 
 import com.T82.payment.config.util.TossUtil;
-import com.T82.payment.domain.dto.TossRefundResponse;
+import com.T82.payment.domain.dto.TossRefundDto;
 import com.T82.payment.domain.model.PaymentLog;
 import com.T82.payment.domain.request.RefundRequest;
 import com.T82.payment.domain.response.RefundResponse;
@@ -20,16 +20,16 @@ public class RefundServiceImpl implements RefundService {
     @Override
     public RefundResponse refund(RefundRequest refundRequest) {
         PaymentLog paymentLog = paymentDAO.findPaymentLogByOrderNo(refundRequest.getOrderNo());
-        TossRefundResponse tossRefundResponse = tossUtil.refund(
+        TossRefundDto tossRefundDto = tossUtil.refund(
                 paymentLog.getPayToken(),
                 refundRequest.getAmount()
         );
-        if (tossRefundResponse.getErrorCode() != null) {
-            throw new IllegalArgumentException(tossRefundResponse.getMsg());
+        if (tossRefundDto.getErrorCode() != null) {
+            throw new IllegalArgumentException(tossRefundDto.getMsg());
         }
 
-        refundRepository.save(refundRequest.toLog(tossRefundResponse));
+        refundRepository.save(refundRequest.toLog(tossRefundDto));
 
-        return RefundResponse.from(tossRefundResponse);
+        return RefundResponse.from(tossRefundDto);
     }
 }

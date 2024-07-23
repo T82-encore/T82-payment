@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TossRefundResponse {
+public class TossRefundDto {
     private String refundNo;
     private int refundedAmount;
     private String approvalTime;

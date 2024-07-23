@@ -1,7 +1,7 @@
 package com.T82.payment.config.util;
 
-import com.T82.payment.domain.dto.TossPaymentResponse;
-import com.T82.payment.domain.dto.TossRefundResponse;
+import com.T82.payment.domain.dto.TossPaymentDto;
+import com.T82.payment.domain.dto.TossRefundDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,7 @@ import java.util.UUID;
 @Component
 public class TossUtil {
 
-    public TossPaymentResponse pay(int amount) {
+    public TossPaymentDto pay(int amount) {
         URL url = null;
         URLConnection connection = null;
         StringBuilder responseBody = new StringBuilder();
@@ -66,7 +66,7 @@ public class TossUtil {
             br.close();
 
             ObjectMapper objectMapper = new ObjectMapper();
-            TossPaymentResponse paymentResponse = objectMapper.readValue(responseBody.toString(), TossPaymentResponse.class);
+            TossPaymentDto paymentResponse = objectMapper.readValue(responseBody.toString(), TossPaymentDto.class);
             paymentResponse.setOrderNo(orderNo);
 
             return paymentResponse;
@@ -79,7 +79,7 @@ public class TossUtil {
         return null;
     }
 
-    public TossRefundResponse refund(String payToken, Integer amount) {
+    public TossRefundDto refund(String payToken, Integer amount) {
         URL url = null;
         URLConnection connection = null;
         StringBuilder responseBody = new StringBuilder();
@@ -112,7 +112,7 @@ public class TossUtil {
 
             ObjectMapper objectMapper = new ObjectMapper();
 
-            return objectMapper.readValue(responseBody.toString(), TossRefundResponse.class);
+            return objectMapper.readValue(responseBody.toString(), TossRefundDto.class);
         } catch (Exception e) {
             responseBody.append(e);
         }

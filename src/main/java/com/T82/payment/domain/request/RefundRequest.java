@@ -1,6 +1,6 @@
 package com.T82.payment.domain.request;
 
-import com.T82.payment.domain.dto.TossRefundResponse;
+import com.T82.payment.domain.dto.TossRefundDto;
 import com.T82.payment.domain.model.RefundLog;
 import lombok.Getter;
 
@@ -12,13 +12,13 @@ public class RefundRequest {
     private Integer amount;
     private String reason;
 
-    public RefundLog toLog(TossRefundResponse tossRefundResponse) {
+    public RefundLog toLog(TossRefundDto tossRefundDto) {
         return new RefundLog(
-                tossRefundResponse.getRefundNo(),
-                tossRefundResponse.getPayToken(),
-                tossRefundResponse.getRefundedAmount(),
-                tossRefundResponse.getApprovalTime(),
-                tossRefundResponse.getTransactionId(),
+                tossRefundDto.getRefundNo(),
+                tossRefundDto.getPayToken(),
+                tossRefundDto.getRefundedAmount(),
+                tossRefundDto.getApprovalTime(),
+                tossRefundDto.getTransactionId(),
                 this.reason
         );
     }

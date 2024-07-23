@@ -1,6 +1,6 @@
 package com.T82.payment.domain.response;
 
-import com.T82.payment.domain.dto.TossRefundResponse;
+import com.T82.payment.domain.dto.TossRefundDto;
 
 public record RefundResponse(
         String message,
@@ -9,11 +9,11 @@ public record RefundResponse(
 ) {
 
 
-    public static RefundResponse from(TossRefundResponse tossRefundResponse) {
+    public static RefundResponse from(TossRefundDto tossRefundDto) {
         return new RefundResponse(
                 "환불처리가 성공적으로 이루어졌습니다.",
-                tossRefundResponse.getApprovalTime(),
-                tossRefundResponse.getRefundedAmount()
+                tossRefundDto.getApprovalTime(),
+                tossRefundDto.getRefundedAmount()
         );
     }
 }

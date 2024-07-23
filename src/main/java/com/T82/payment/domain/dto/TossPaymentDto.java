@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-public class TossPaymentResponse {
+public class TossPaymentDto {
     private Integer status;
     private Integer code;
     private String checkoutPage;
