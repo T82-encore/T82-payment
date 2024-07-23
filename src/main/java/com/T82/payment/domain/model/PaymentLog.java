@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,6 +18,7 @@ import java.util.List;
 public class PaymentLog {
     @Id
     private String orderNo;
+    private UUID userId;
     private String payToken;
     @Setter
     private String payMethod;
@@ -30,12 +32,14 @@ public class PaymentLog {
 
     public PaymentLog(
             String orderNo,
+            UUID userId,
             String payToken,
             Integer amount,
             Long eventId,
             List<PaymentRequest.ItemRequest> list
     ) {
         this.orderNo = orderNo;
+        this.userId = userId;
         this.payToken = payToken;
         this.amount = amount;
         this.eventId = eventId;

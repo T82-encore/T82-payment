@@ -16,7 +16,7 @@ public class ApiCoupon {
         try {
             feignCoupon.verify(couponVerifyRequest);
         } catch (Exception e) {
-            throw new IllegalArgumentException();
+//            throw new IllegalArgumentException();
         }
     }
 }

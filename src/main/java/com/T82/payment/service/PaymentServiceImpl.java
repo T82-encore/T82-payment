@@ -30,7 +30,7 @@ public class PaymentServiceImpl implements PaymentService {
         if (tossPaymentDto == null) throw new RuntimeException();
         if (tossPaymentDto.getCode() == -1) throw new IllegalArgumentException();
         if (tossPaymentDto.getCode() == 0) {
-            paymentRepository.save(paymentRequest.toLog(tossPaymentDto));
+            paymentRepository.save(paymentRequest.toLog(tokenInfo, tossPaymentDto));
         }
 
         return "https://ul.toss.im?scheme=supertoss%3A%2F%2Fpay%3FpayToken%3D" + tossPaymentDto.getPayToken();
@@ -43,7 +43,10 @@ public class PaymentServiceImpl implements PaymentService {
 
         paymentRepository.save(callbackRequest.updateLog(paymentLog));
 
-        Map<String, Object> message = KafkaUtil.getPaymentMessage(paymentLog);
-        kafkaProducerService.sendMessage("payment_success", message);
+        Map<String, Object> paymentMessage = KafkaUtil.getPaymentMessage(paymentLog);
+        kafkaProducerService.sendMessage("payment_success", paymentMessage);
+
+        Map<String, Object> couponMessage = KafkaUtil.getCouponMessage(paymentLog);
+        kafkaProducerService.sendMessage("coupon_used", couponMessage);
     }
 }

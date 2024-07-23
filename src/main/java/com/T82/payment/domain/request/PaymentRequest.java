@@ -14,9 +14,10 @@ public class PaymentRequest {
     private Long eventId;
     private List<ItemRequest> items;
 
-    public PaymentLog toLog(TossPaymentDto response) {
+    public PaymentLog toLog(TokenInfo tokenInfo, TossPaymentDto response) {
         return new PaymentLog(
                 response.getOrderNo(),
+                tokenInfo.id(),
                 response.getPayToken(),
                 this.totalAmount,
                 this.eventId,
