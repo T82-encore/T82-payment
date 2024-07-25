@@ -44,9 +44,9 @@ public class PaymentServiceImpl implements PaymentService {
         paymentRepository.save(callbackRequest.updateLog(paymentLog));
 
         Map<String, Object> paymentMessage = KafkaUtil.getPaymentMessage(paymentLog);
-        kafkaProducerService.sendMessage("payment_success", paymentMessage);
+        kafkaProducerService.sendMessage("paymentSuccess", paymentMessage);
 
         Map<String, Object> couponMessage = KafkaUtil.getCouponMessage(paymentLog);
-        kafkaProducerService.sendMessage("coupon_used", couponMessage);
+        kafkaProducerService.sendMessage("couponUsed", couponMessage);
     }
 }

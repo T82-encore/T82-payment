@@ -14,6 +14,7 @@ public class KafkaUtil {
         Map<String, Object> message = new HashMap<>();
         message.put("eventId", paymentLog.getEventId());
         message.put("orderNo", paymentLog.getOrderNo());
+        message.put("userId", paymentLog.getUserId());
         message.put("items", paymentLog.getItems());
         message.put("paymentDate", LocalDateTime.now().toString());
 
