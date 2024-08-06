@@ -1,6 +1,7 @@
 package com.T82.payment.config.kafka;
 
 import com.T82.payment.domain.model.PaymentLog;
+import com.T82.payment.domain.request.RefundRequest;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -31,6 +32,13 @@ public class KafkaUtil {
             }
         });
         message.put("couponIds", list);
+
+        return message;
+    }
+
+    public static Map<String, Object> getRefundMessage(RefundRequest refundRequest) {
+        Map<String, Object> message = new HashMap<>();
+        message.put("seatId", refundRequest.getSeatId());
 
         return message;
     }

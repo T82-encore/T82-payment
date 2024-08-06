@@ -4,6 +4,7 @@ import com.T82.payment.domain.dto.TossPaymentDto;
 import com.T82.payment.domain.dto.TossRefundDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedOutputStream;
@@ -17,6 +18,9 @@ import java.util.UUID;
 
 @Component
 public class TossUtil {
+    private final String apiKey;
+    private final String callbackUrl;
+    private final String retAppScheme;
 
     public TossPaymentDto pay(int amount) {
         URL url = null;
@@ -40,13 +44,13 @@ public class TossUtil {
             jsonBody.put("amount", amount);
             jsonBody.put("amountTaxFree", 0);
             jsonBody.put("productDesc", "테스트 결제");
-            jsonBody.put("apiKey", "sk_test_w5lNQylNqa5lNQe013Nq");
+            jsonBody.put("apiKey", apiKey);
             jsonBody.put("autoExecute", true);
-            jsonBody.put("resultCallback", "https://35.225.68.126/api/v1/payment/callback");
+            jsonBody.put("resultCallback", callbackUrl);
             jsonBody.put("callbackVersion", "V2");
             jsonBody.put("retUrl", "http://localhost");
             jsonBody.put("retCancelUrl", "http://YOUR-SITE.COM/close");
-            jsonBody.put("retAppScheme", "hellot82://view/paymentSuccess/");
+            jsonBody.put("retAppScheme", retAppScheme);
             jsonBody.put("expiredTime", expiredTime);
 
             BufferedOutputStream bos = new BufferedOutputStream(connection.getOutputStream());
@@ -118,5 +122,15 @@ public class TossUtil {
         }
         System.out.println(responseBody.toString());
         return null;
+    }
+
+    public TossUtil(
+            @Value("${toss.apiKey}") String apiKey,
+            @Value("${toss.callbackUrl}") String callbackUrl,
+            @Value("${toss.retAppScheme}") String retAppScheme
+    ){
+        this.apiKey = apiKey;
+        this.callbackUrl = callbackUrl;
+        this.retAppScheme = retAppScheme;
     }
 }

@@ -7,6 +7,7 @@ import lombok.Getter;
 public class RefundRequest {
     @Getter
     private String orderNo;
+    @Getter
     private Long seatId;
     @Getter
     private Integer amount;
