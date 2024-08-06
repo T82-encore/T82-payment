@@ -31,7 +31,7 @@ public class CustomSecurityConfig {
                 req.requestMatchers("/api/v1/payment/callback")
                         .permitAll()
                         .anyRequest()
-                        .authenticated()
+                        .permitAll()
         );
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

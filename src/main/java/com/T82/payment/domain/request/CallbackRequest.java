@@ -18,4 +18,8 @@ public class CallbackRequest {
         paymentLog.setTransactionId(this.transactionId);
         return paymentLog;
     }
+    @Override
+    public String toString() {
+        return "CallbackRequest [status=" + status + ", payToken=" + payToken + ", orderNo=" + orderNo;
+    }
 }

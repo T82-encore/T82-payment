@@ -13,10 +13,12 @@ public class ApiCoupon {
 
     public void verifyCoupon(TokenInfo tokenInfo, PaymentRequest paymentRequest) {
         CouponVerifyRequest couponVerifyRequest = paymentRequest.convertToCouponVerifyRequest(tokenInfo);
-        try {
-            feignCoupon.verify(couponVerifyRequest);
-        } catch (Exception e) {
-//            throw new IllegalArgumentException();
+        if(!couponVerifyRequest.getItems().isEmpty()) {
+            try {
+                feignCoupon.verify(couponVerifyRequest);
+            } catch (Exception e) {
+                throw new IllegalArgumentException(e);
+            }
         }
     }
 }

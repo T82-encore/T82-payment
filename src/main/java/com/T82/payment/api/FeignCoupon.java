@@ -5,7 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "coupon", url = "http://localhost:8080/api/v1/coupon")
+@FeignClient(name = "coupon", url = "${feign.coupon.url}")
 public interface FeignCoupon {
     @PostMapping("/verify")
     void verify(@RequestBody CouponVerifyRequest couponVerifyRequest);
